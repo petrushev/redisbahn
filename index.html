@@ -1,0 +1,27 @@
+<html>
+<head>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script>
+    var ws = new WebSocket('ws://localhost:9090');
+
+	function htmlEncode(value){
+	  return $('<div/>').text(value).html();
+	}
+
+    $(document).ready(function() {
+        var messages_box = $("div#messages");
+
+        ws.onmessage  = function(e) {
+          var data = $.parseJSON(e.data);
+
+          var msg = "<div>"+htmlEncode(data['message'])+"</div>";
+          messages_box.append(msg);
+        };
+    });
+
+  </script>
+</head>
+<body>
+   <div id="messages"></div>
+</body>
+</html>
